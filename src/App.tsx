@@ -40,7 +40,7 @@ function App() {
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
 
   function handleDragStart(
-    e: DragEvent<HTMLDivElement>,
+    _: DragEvent<HTMLDivElement>,
     bd: Board,
     card: Card
   ): void {
@@ -69,22 +69,18 @@ function App() {
     card: Card
   ): void {
     e.preventDefault();
-    let currentIndex = 0;
-    if (currentCard !== null) {
-      currentIndex = currentBd!.items.indexOf(currentCard);
-    }
-    currentBd?.items.splice(currentIndex, 1);
-    let dropIndex = 0;
-    if (currentCard !== null) {
-      dropIndex = bd!.items.indexOf(card);
-    }
+    if (!currentCard || !currentBd) return;
+
+    const currentIndex = currentBd.items.indexOf(currentCard);
+    currentBd.items.splice(currentIndex, 1);
+    const dropIndex = bd.items.indexOf(card);
     bd.items.splice(dropIndex + 1, 0, currentCard!);
     setBoards(
       boards.map((b) => {
         if (b.id === bd.id) {
           return bd;
         }
-        if (b.id === currentBd?.id) {
+        if (b.id === currentBd.id) {
           return currentBd;
         }
         return b;
