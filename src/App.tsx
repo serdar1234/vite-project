@@ -8,30 +8,30 @@ function App() {
       id: 1,
       title: "title 1",
       items: [
-        { id: 1, text: "Card 1" },
-        { id: 2, text: "Card 2" },
-        { id: 3, text: "Card 3" },
-        { id: 4, text: "Card 4" },
+        { id: 1, text: "Card A1" },
+        { id: 2, text: "Card A2" },
+        { id: 3, text: "Card A3" },
+        { id: 4, text: "Card A4" },
       ],
     },
     {
       id: 2,
       title: "title 2",
       items: [
-        { id: 1, text: "Card 1" },
-        { id: 2, text: "Card 2" },
-        { id: 3, text: "Card 3" },
-        { id: 4, text: "Card 4" },
+        { id: 11, text: "Card B1" },
+        { id: 12, text: "Card B2" },
+        { id: 13, text: "Card B3" },
+        { id: 14, text: "Card B4" },
       ],
     },
     {
       id: 3,
       title: "title 3",
       items: [
-        { id: 1, text: "Card 1" },
-        { id: 2, text: "Card 2" },
-        // { id: 3, text: "Card 3" },
-        // { id: 4, text: "Card 4" },
+        { id: 21, text: "Card C1" },
+        { id: 22, text: "Card C2" },
+        // { id: 23, text: "Card C3" },
+        // { id: 24, text: "Card C4" },
       ],
     },
   ]);
@@ -48,19 +48,15 @@ function App() {
     setCurrentCard(card);
   }
 
-  function handleDragEnd(e: DragEvent<HTMLDivElement>): void {
-    e.currentTarget.style.boxShadow = "none";
-  }
-
-  function handleDragLeave(e: DragEvent<HTMLDivElement>): void {
-    e.currentTarget.style.boxShadow = "none";
-  }
-
   function handleDragOver(e: DragEvent<HTMLDivElement>): void {
     e.preventDefault();
     if (e.currentTarget.className === "card") {
       e.currentTarget.style.boxShadow = "0 4px 3px grey";
     }
+  }
+
+  function handleDragLeave(e: DragEvent<HTMLDivElement>): void {
+    e.currentTarget.style.boxShadow = "none";
   }
 
   function handleDrop(
@@ -86,6 +82,11 @@ function App() {
         return b;
       })
     );
+    e.currentTarget.style.boxShadow = "none";
+  }
+
+  function handleDragEnd(e: DragEvent<HTMLDivElement>): void {
+    e.currentTarget.style.boxShadow = "none";
   }
 
   return (
@@ -99,11 +100,11 @@ function App() {
                 className="card"
                 key={card.id}
                 draggable={true}
-                onDragStart={(e) => handleDragStart(e, bd, card)}
-                onDragEnd={(e) => handleDragEnd(e)}
-                onDragLeave={(e) => handleDragLeave(e)}
-                onDragOver={(e) => handleDragOver(e)}
-                onDrop={(e) => handleDrop(e, bd, card)}
+                onDragStart={(e) => handleDragStart(e, bd, card)} // when start dragging
+                onDragOver={(e) => handleDragOver(e)} // when dragged element hovers over another one
+                onDragLeave={(e) => handleDragLeave(e)} // when leaving hovering over another element
+                onDrop={(e) => handleDrop(e, bd, card)} // actually dropping the dragged element
+                onDragEnd={(e) => handleDragEnd(e)} // clean up fn when finished dragging, successfully or not
               >
                 {card.text}
               </div>
