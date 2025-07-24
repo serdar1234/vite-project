@@ -6,11 +6,11 @@
 .main {
   display: flex;
   flex-wrap: wrap;
-  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: darkkhaki;
 }
 
 .header {
@@ -22,11 +22,18 @@
 .card {
   width: 18vw;
   height: 300px;
+  background-color: whitesmoke;
   border-radius: 12px;
   border: 5px solid red;
+  box-shadow: 3px 3px 8px 3px darkred;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 20px;
   cursor: grab;
+  font-size: 3rem;
+  &:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
 }

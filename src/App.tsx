@@ -20,7 +20,7 @@ function App() {
   }
 
   function dragEndHandler(e: DragEvent<HTMLDivElement>): void {
-    e.currentTarget.style.background = "white";
+    e.currentTarget.style.background = "whitesmoke";
   }
 
   function dragOverHandler(e: DragEvent<HTMLDivElement>): void {
@@ -41,7 +41,7 @@ function App() {
         return c;
       })
     );
-    e.currentTarget.style.background = "white";
+    e.currentTarget.style.background = "whitesmoke";
   }
 
   return (
@@ -49,7 +49,9 @@ function App() {
       <main className="main">
         {cardList.sort(sortCardsOrder).map((card) => (
           <div
+            key={card.id}
             className="card"
+            tabIndex={card.order}
             draggable={true}
             onDragStart={(e) => dragStartHandler(e, card)}
             onDragLeave={(e) => dragEndHandler(e)}
