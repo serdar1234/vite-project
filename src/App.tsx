@@ -1,65 +1,117 @@
 import { useState, type DragEvent } from "react";
-import { type Card } from "./shared/types";
+import { type Board, type Card } from "./shared/types";
 import "./App.css";
 
 function App() {
-  const [cardList, setCardList] = useState<Card[]>([
-    { id: 1, order: 1, text: "Card 1" },
-    { id: 2, order: 2, text: "Card 2" },
-    { id: 3, order: 3, text: "Card 3" },
-    { id: 4, order: 4, text: "Card 4" },
+  const [boards, setBoards] = useState<Board[]>([
+    {
+      id: 1,
+      title: "title 1",
+      items: [
+        { id: 1, text: "Card 1" },
+        { id: 2, text: "Card 2" },
+        { id: 3, text: "Card 3" },
+        { id: 4, text: "Card 4" },
+      ],
+    },
+    {
+      id: 2,
+      title: "title 2",
+      items: [
+        { id: 1, text: "Card 1" },
+        { id: 2, text: "Card 2" },
+        { id: 3, text: "Card 3" },
+        { id: 4, text: "Card 4" },
+      ],
+    },
+    {
+      id: 3,
+      title: "title 3",
+      items: [
+        { id: 1, text: "Card 1" },
+        { id: 2, text: "Card 2" },
+        // { id: 3, text: "Card 3" },
+        // { id: 4, text: "Card 4" },
+      ],
+    },
   ]);
 
+  const [currentBd, setCurrentBd] = useState<Board | null>(null);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
 
-  const sortCardsOrder = <T extends Card>(a: T, b: T): number =>
-    a.order - b.order;
-
-  function dragStartHandler(_: DragEvent<HTMLDivElement>, card: Card): void {
+  function handleDragStart(
+    e: DragEvent<HTMLDivElement>,
+    bd: Board,
+    card: Card
+  ): void {
+    setCurrentBd(bd);
     setCurrentCard(card);
   }
 
-  function dragEndHandler(e: DragEvent<HTMLDivElement>): void {
-    e.currentTarget.style.background = "whitesmoke";
+  function handleDragEnd(e: DragEvent<HTMLDivElement>): void {
+    e.currentTarget.style.boxShadow = "none";
   }
 
-  function dragOverHandler(e: DragEvent<HTMLDivElement>): void {
-    e.preventDefault();
-    e.currentTarget.style.background = "salmon";
+  function handleDragLeave(e: DragEvent<HTMLDivElement>): void {
+    e.currentTarget.style.boxShadow = "none";
   }
 
-  function dropHandler(e: DragEvent<HTMLDivElement>, card: Card): void {
+  function handleDragOver(e: DragEvent<HTMLDivElement>): void {
     e.preventDefault();
-    setCardList(
-      cardList.map((c: Card) => {
-        if (c.id === card.id) {
-          return { ...c, order: currentCard!.order };
+    if (e.currentTarget.className === "card") {
+      e.currentTarget.style.boxShadow = "0 4px 3px grey";
+    }
+  }
+
+  function handleDrop(
+    e: DragEvent<HTMLDivElement>,
+    bd: Board,
+    card: Card
+  ): void {
+    e.preventDefault();
+    let currentIndex = 0;
+    if (currentCard !== null) {
+      currentIndex = currentBd!.items.indexOf(currentCard);
+    }
+    currentBd?.items.splice(currentIndex, 1);
+    let dropIndex = 0;
+    if (currentCard !== null) {
+      dropIndex = bd!.items.indexOf(card);
+    }
+    bd.items.splice(dropIndex + 1, 0, currentCard!);
+    setBoards(
+      boards.map((b) => {
+        if (b.id === bd.id) {
+          return bd;
         }
-        if (c.id === currentCard!.id) {
-          return { ...c, order: card.order };
+        if (b.id === currentBd?.id) {
+          return currentBd;
         }
-        return c;
+        return b;
       })
     );
-    e.currentTarget.style.background = "whitesmoke";
   }
 
   return (
     <>
       <main className="main">
-        {cardList.sort(sortCardsOrder).map((card) => (
-          <div
-            key={card.id}
-            className="card"
-            tabIndex={card.order}
-            draggable={true}
-            onDragStart={(e) => dragStartHandler(e, card)}
-            onDragLeave={(e) => dragEndHandler(e)}
-            onDragEnd={(e) => dragEndHandler(e)}
-            onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropHandler(e, card)}
-          >
-            {card.text}
+        {boards.map((bd) => (
+          <div className="board" key={bd.id}>
+            <div className="board-title">{bd.title}</div>
+            {bd.items.map((card) => (
+              <div
+                className="card"
+                key={card.id}
+                draggable={true}
+                onDragStart={(e) => handleDragStart(e, bd, card)}
+                onDragEnd={(e) => handleDragEnd(e)}
+                onDragLeave={(e) => handleDragLeave(e)}
+                onDragOver={(e) => handleDragOver(e)}
+                onDrop={(e) => handleDrop(e, bd, card)}
+              >
+                {card.text}
+              </div>
+            ))}
           </div>
         ))}
       </main>

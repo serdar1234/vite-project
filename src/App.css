@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 .main {
@@ -10,7 +11,25 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: darkkhaki;
+  /* background-color: darkkhaki; */
+}
+
+.board {
+  min-width: 300px;
+  min-height: 400px;
+  border-radius: 12px;
+  border: 5px solid salmon;
+  padding: 20px 10px;
+  margin: 10px;
+  box-shadow: 3px 3px 8px 3px darkred;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.board-title {
+  font-size: 1.5em;
+  font-weight: 700;
 }
 
 .header {
@@ -20,18 +39,18 @@
 }
 
 .card {
-  width: 18vw;
-  height: 300px;
+  width: 100%;
   background-color: whitesmoke;
-  border-radius: 12px;
-  border: 5px solid red;
-  box-shadow: 3px 3px 8px 3px darkred;
+  border-radius: 6px;
+  padding: 12px;
+  border: 2px solid pink;
+  /* box-shadow: 3px 3px 8px 3px darkred; */
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  margin: 5px 0;
   cursor: grab;
-  font-size: 3rem;
+  font-size: 2rem;
   &:focus {
     outline: 2px solid #005fcc;
     outline-offset: 2px;

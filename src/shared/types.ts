@@ -1,5 +1,10 @@
 export type Card = {
   id: number;
-  order: number;
   text: string;
+};
+
+export type Board = {
+  id: number;
+  title: string;
+  items: Card[];
 };
