@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, type DragEvent } from "react";
+import "./App.css";
+import { type Card } from "./shared/types";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cardList, setCardList] = useState<Card[]>([
+    { id: 1, order: 1, text: "Card 1" },
+    { id: 2, order: 2, text: "Card 2" },
+    { id: 3, order: 3, text: "Card 3" },
+    { id: 4, order: 4, text: "Card 4" },
+  ]);
+
+  const [currentCard, setCurrentCard] = useState<Card | null>(null);
+  function dragStartHandler(_: DragEvent<HTMLDivElement>, card: Card): void {
+    setCurrentCard(card);
+  }
+
+  function dragEndHandler(e: DragEvent<HTMLDivElement>): void {
+    e.currentTarget.style.background = "white";
+  }
+
+  function dragOverHandler(e: DragEvent<HTMLDivElement>): void {
+    e.preventDefault();
+    e.currentTarget.style.background = "salmon";
+  }
+
+  function dropHandler(e: DragEvent<HTMLDivElement>, card: Card): void {
+    e.preventDefault();
+    setCardList(
+      cardList.map((c: Card) => {
+        if (c.id === card.id) {
+          return { ...c, order: currentCard!.order };
+        }
+        if (c.id === currentCard!.id) {
+          return { ...c, order: card.order };
+        }
+        return c;
+      })
+    );
+    e.currentTarget.style.background = "white";
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main className="main">
+        <h1 className="header">fake header</h1>
+        {cardList.map((card) => (
+          <div
+            className="card"
+            draggable={true}
+            onDragStart={(e) => dragStartHandler(e, card)}
+            onDragLeave={(e) => dragEndHandler(e)}
+            onDragEnd={(e) => dragEndHandler(e)}
+            onDragOver={(e) => dragOverHandler(e)}
+            onDrop={(e) => dropHandler(e, card)}
+          >
+            {card.text + " " + card.order}
+          </div>
+        ))}
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
