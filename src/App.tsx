@@ -8,10 +8,10 @@ function App() {
       id: 1,
       title: "title 1",
       items: [
-        { id: 1, text: "Card A1" },
-        { id: 2, text: "Card A2" },
-        { id: 3, text: "Card A3" },
-        { id: 4, text: "Card A4" },
+        { id: 5, text: "Card A1" },
+        { id: 6, text: "Card A2" },
+        { id: 7, text: "Card A3" },
+        { id: 8, text: "Card A4" },
       ],
     },
     {
@@ -93,11 +93,12 @@ function App() {
     <>
       <main className="main">
         {boards.map((bd) => (
-          <div className="board" key={bd.id}>
+          <div className="board" key={bd.id} tabIndex={bd.id}>
             <div className="board-title">{bd.title}</div>
             {bd.items.map((card) => (
               <div
                 className="card"
+                tabIndex={card.id}
                 key={card.id}
                 draggable={true}
                 onDragStart={(e) => handleDragStart(e, bd, card)} // when start dragging
