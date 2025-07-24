@@ -1,6 +1,6 @@
 import { useState, type DragEvent } from "react";
-import "./App.css";
 import { type Card } from "./shared/types";
+import "./App.css";
 
 function App() {
   const [cardList, setCardList] = useState<Card[]>([
@@ -11,6 +11,10 @@ function App() {
   ]);
 
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
+
+  const sortCardsOrder = <T extends Card>(a: T, b: T): number =>
+    a.order - b.order;
+
   function dragStartHandler(_: DragEvent<HTMLDivElement>, card: Card): void {
     setCurrentCard(card);
   }
@@ -43,8 +47,7 @@ function App() {
   return (
     <>
       <main className="main">
-        <h1 className="header">fake header</h1>
-        {cardList.map((card) => (
+        {cardList.sort(sortCardsOrder).map((card) => (
           <div
             className="card"
             draggable={true}
@@ -54,7 +57,7 @@ function App() {
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropHandler(e, card)}
           >
-            {card.text + " " + card.order}
+            {card.text}
           </div>
         ))}
       </main>
