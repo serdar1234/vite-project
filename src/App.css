@@ -16,8 +16,8 @@
 }
 
 .board {
-  min-width: 300px;
-  min-height: 400px;
+  min-width: 30vw;
+  min-height: 45vh;
   border-radius: 12px;
   border: 5px solid #fd3a0f;
   background-color: beige;
@@ -33,8 +33,9 @@
 }
 
 .board-title {
-  font-size: 1.5em;
+  font-size: 3rem;
   font-weight: 700;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .header {
