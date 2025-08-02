@@ -1,5 +1,7 @@
 import { useState, type DragEvent } from "react";
 import { type Board, type Card } from "./shared/types";
+import { handleDragOver, handleDragEnd } from "./shared/utilityFunctions";
+
 import "./App.css";
 import sourceData from "./data/sourceData.json";
 
@@ -18,14 +20,6 @@ function App() {
   ): void {
     setSourceBoard(bd); // save in state the board from where you take the card
     setSourceCard(card); // save in state the card that you've picked
-  }
-
-  function handleDragOver(e: DragEvent<HTMLDivElement>): void {
-    e.preventDefault(); // allows this element to be a valid target for dropping
-    if (e.currentTarget.className === "card") {
-      // current target - element that we hover the card over
-      e.currentTarget.style.boxShadow = "0 4px 3px grey";
-    }
   }
 
   function handleDragOverCard(e: DragEvent<HTMLDivElement>): void {
@@ -96,10 +90,6 @@ function App() {
         return b;
       });
     });
-    e.currentTarget.style.boxShadow = "none";
-  }
-
-  function handleDragEnd(e: DragEvent<HTMLDivElement>): void {
     e.currentTarget.style.boxShadow = "none";
   }
 
