@@ -1,40 +1,10 @@
 import { useState, type DragEvent } from "react";
 import { type Board, type Card } from "./shared/types";
 import "./App.css";
+import sourceData from "./data/sourceData.json";
 
 function App() {
-  const [boards, setBoards] = useState<Board[]>([
-    {
-      id: 1,
-      title: "title 1",
-      items: [
-        { id: 5, text: "Card A1" },
-        { id: 6, text: "Card A2" },
-        { id: 7, text: "Card A3" },
-        { id: 8, text: "Card A4" },
-      ],
-    },
-    {
-      id: 2,
-      title: "title 2",
-      items: [
-        { id: 11, text: "Card B1" },
-        { id: 12, text: "Card B2" },
-        { id: 13, text: "Card B3" },
-        { id: 14, text: "Card B4" },
-      ],
-    },
-    {
-      id: 3,
-      title: "title 3",
-      items: [
-        { id: 21, text: "Card C1" },
-        { id: 22, text: "Card C2" },
-        // { id: 23, text: "Card C3" },
-        // { id: 24, text: "Card C4" },
-      ],
-    },
-  ]);
+  const [boards, setBoards] = useState<Board[]>(sourceData);
 
   const [currentBd, setCurrentBd] = useState<Board | null>(null);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
