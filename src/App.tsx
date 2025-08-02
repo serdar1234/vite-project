@@ -85,6 +85,25 @@ function App() {
     e.currentTarget.style.boxShadow = "none";
   }
 
+  function handleDropCard(e: DragEvent<HTMLDivElement>, bd: Board): void {
+    if (!currentCard || !currentBd) return;
+    bd.items.push(currentCard);
+    const currentIndex = currentBd.items.indexOf(currentCard);
+    currentBd.items.splice(currentIndex, 1);
+    setBoards(
+      boards.map((b) => {
+        if (b.id === bd.id) {
+          return bd;
+        }
+        if (b.id === currentBd.id) {
+          return currentBd;
+        }
+        return b;
+      })
+    );
+    e.currentTarget.style.boxShadow = "none";
+  }
+
   function handleDragEnd(e: DragEvent<HTMLDivElement>): void {
     e.currentTarget.style.boxShadow = "none";
   }
@@ -93,7 +112,13 @@ function App() {
     <>
       <main className="main">
         {boards.map((bd) => (
-          <div className="board" key={bd.id} tabIndex={bd.id}>
+          <div
+            className="board"
+            key={bd.id}
+            tabIndex={bd.id}
+            onDragOver={(e) => handleDragOver(e)}
+            onDrop={(e) => handleDropCard(e, bd)}
+          >
             <div className="board-title">{bd.title}</div>
             {bd.items.map((card) => (
               <div
