@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "title 1",
+    "title": "Board 1",
     "items": [
       { "id": 5, "text": "Card A1" },
       { "id": 6, "text": "Card A2" },
@@ -11,7 +11,7 @@
   },
   {
     "id": 2,
-    "title": "title 2",
+    "title": "Board 2",
     "items": [
       { "id": 11, "text": "Card B1" },
       { "id": 12, "text": "Card B2" },
@@ -21,7 +21,7 @@
   },
   {
     "id": 3,
-    "title": "title 3",
+    "title": "Board 3",
     "items": [
       { "id": 21, "text": "Card C1" },
       { "id": 22, "text": "Card C2" }
